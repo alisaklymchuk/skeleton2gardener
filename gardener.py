@@ -36,7 +36,7 @@ def GetHowLongToRun():
       elif len(user_input_list) == 2:
         Seasons = int(user_input_list[0])*4 + float('0.' + user_input_list[1])*4
       else:
-        print('Invalid input - please try again')
+        print('Invalid input - please try again (examples: 2, 3.25, 4.75')
       
       if (int(Seasons) == Seasons) and (Seasons/4 >-2 and Seasons/4 <6):
         valid = True
