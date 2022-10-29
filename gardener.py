@@ -29,14 +29,24 @@ def GetHowLongToRun():
   valid = False
   while not valid:
     try:
-      Years = int(input('Enter a number between 0 and 5, or -1 for stepping mode: '))
-      if Years >-2 and Years <6:
+      user_input_list = input('Enter a number between 0 and 5, or -1 for stepping mode: ').split('.')
+      print (user_input_list)
+      if len(user_input_list) == 1:
+        Seasons = int(user_input_list[0])*4
+      elif len(user_input_list) == 2:
+        Seasons = int(user_input_list[0])*4 + float('0.' + user_input_list[1])*4
+      else:
+        print('Invalid input - please try again')
+      
+      if (int(Seasons) == Seasons) and (Seasons/4 >-2 and Seasons/4 <6):
         valid = True
       else:
         print('Invalid input - please try again')
     except:
       print('Invalid input - please try again')
-  return Years
+      
+  print (int(Seasons))
+  return int(Seasons)
 
 def CreateNewField(): 
   Field = [[SOIL for Column in range(FIELDWIDTH)] for Row in range(FIELDLENGTH)]
