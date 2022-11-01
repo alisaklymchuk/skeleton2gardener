@@ -44,8 +44,6 @@ def GetHowLongToRun():
         print('Invalid input - please try again')
     except:
       print('Invalid input - please try again')
-      
-  print (int(Seasons))
   return int(Seasons)
 
 def CreateNewField(): 
@@ -159,34 +157,45 @@ def SimulateWinter(Field):
         Field[Row][Column] = SOIL
   return Field
 
-def SimulateOneYear(Field, Year):
+def SimulateOneYear(Field, Years):
   Field = SimulateSpring(Field)
-  Display(Field, 'spring', Year)
+  Display(Field, 'spring', Years)
   Field = SimulateSummer(Field)
-  Display(Field, 'summer', Year)
+  Display(Field, 'summer', Years)
   Field = SimulateAutumn(Field)
-  Display(Field, 'autumn', Year)
+  Display(Field, 'autumn', Years)
   Field = SimulateWinter(Field)
-  Display(Field, 'winter', Year)
+  Display(Field, 'winter', Years)
 
 def Simulation():
-  YearsToRun = GetHowLongToRun()
-  if YearsToRun != 0:
-    Field = InitialiseField()
-    if YearsToRun >= 1:
-      for Year in range(1, YearsToRun + 1):
-        SimulateOneYear(Field, Year)
-    else:
-      Continuing = True                     
-      Year = 0
-      while Continuing:
-        Year += 1
-        SimulateOneYear(Field, Year)
-        Response = input('Press Enter to run simulation for another Year, Input X to stop: ')
-        if Response == 'x' or Response == 'X':
-          Continuing = False
-    print('End of Simulation')
-  input()
+ YearsToRun = int(GetHowLongToRun()/4)
+ if YearsToRun != 0:
+  Field = InitialiseField()
+  if YearsToRun >= 1:
+    for Year in range(1, YearsToRun + 1):
+      SimulateOneYear(Field, Year)
+    if  user_input_list[1] == 25:
+      Field = SimulateSpring(Field)
+      Display(Field, 'spring', Year + 1)
+    if user_input_list[1] == 5:
+      Field = SimulateSummer(Field)
+      Display(Field, 'summer', Year + 1)
+    if user_input_list[1] == 75:
+      Field = SimulateAutumn(Field)
+      Display(Field, 'autumn', Year + 1)
+      
+  else:
+    Continuing = True                     
+    Year = 0
+    while Continuing:
+      Year += 1
+      SimulateOneYear(Field, Year)
+      Response = input('Press Enter to run simulation for another Year, Input X to stop: ')
+      if Response == 'x' or Response == 'X':
+        Continuing = False
+  print('End of Simulation')
+input()
+   
    
 if __name__ == "__main__":
   Simulation()      
