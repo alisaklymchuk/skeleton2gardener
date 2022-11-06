@@ -29,22 +29,14 @@ def GetHowLongToRun():
   valid = False
   while not valid:
     try:
-      user_input_list = input('Enter a number between 0 and 5, or -1 for stepping mode: ').split('.')
-      print (user_input_list)
-      if len(user_input_list) == 1:
-        Seasons = int(user_input_list[0])*4
-      elif len(user_input_list) == 2:
-        Seasons = int(user_input_list[0])*4 + float('0.' + user_input_list[1])*4
-      else:
-        print('Invalid input - please try again (examples: 2, 3.25, 4.75')
-      
-      if (int(Seasons) == Seasons) and (Seasons/4 >-2 and Seasons/4 <6):
+      Years = int(input('Enter a number between 0 and 5, or -1 for stepping mode: '))
+      if Years >-2 and Years <6:
         valid = True
       else:
-        print('Invalid input - please try again')
+        print('Invalid input - please try again') 
     except:
       print('Invalid input - please try again')
-  return int(Seasons)
+  return Years
 
 def CreateNewField(): 
   Field = [[SOIL for Column in range(FIELDWIDTH)] for Row in range(FIELDLENGTH)]
@@ -110,7 +102,7 @@ def SimulateSpring(Field):
       for Column in range(FIELDWIDTH):
         if Field[Row][Column] == PLANT:
           PlantCount += 1
-          if PlantCount % 3 == 0:
+          if randint(1, 10) % 3 == 0:
             Field[Row][Column] = SOIL
     print('There has been a frost')
     CountPlants(Field)
@@ -157,47 +149,34 @@ def SimulateWinter(Field):
         Field[Row][Column] = SOIL
   return Field
 
-def SimulateOneYear(Field, Years):
+def SimulateOneYear(Field, Year):
   Field = SimulateSpring(Field)
-  Display(Field, 'spring', Years)
+  Display(Field, 'spring', Year)
   Field = SimulateSummer(Field)
-  Display(Field, 'summer', Years)
+  Display(Field, 'summer', Year)
   Field = SimulateAutumn(Field)
-  Display(Field, 'autumn', Years)
+  Display(Field, 'autumn', Year)
   Field = SimulateWinter(Field)
-  Display(Field, 'winter', Years)
+  Display(Field, 'winter', Year)
 
 def Simulation():
- YearsToRun = int(GetHowLongToRun()/4)
- if YearsToRun != 0:
-  Field = InitialiseField()
-  if YearsToRun >= 1:
-    for Year in range(1, YearsToRun + 1):
-      SimulateOneYear(Field, Year)
-    if  user_input_list[1] == 25:
-      Field = SimulateSpring(Field)
-      Display(Field, 'spring', Year + 1)
-    if user_input_list[1] == 5:
-      Field = SimulateSummer(Field)
-      Display(Field, 'summer', Year + 1)
-    if user_input_list[1] == 75:
-      Field = SimulateAutumn(Field)
-      Display(Field, 'autumn', Year + 1)
-      
-  else:
-    Continuing = True                     
-    Year = 0
-    while Continuing:
-      Year += 1
-      SimulateOneYear(Field, Year)
-      Response = input('Press Enter to run simulation for another Year, Input X to stop: ')
-      if Response == 'x' or Response == 'X':
-        Continuing = False
-  print('End of Simulation')
-input()
-   
+  YearsToRun = GetHowLongToRun()
+  if YearsToRun != 0:
+    Field = InitialiseField()
+    if YearsToRun >= 1:
+      for Year in range(1, YearsToRun + 1):
+        SimulateOneYear(Field, Year)
+    else:
+      Continuing = True                     
+      Year = 0
+      while Continuing:
+        Year += 1
+        SimulateOneYear(Field, Year)
+        Response = input('Press Enter to run simulation for another Year, Input X to stop: ')
+        if Response == 'x' or Response == 'X':
+          Continuing = False
+    print('End of Simulation')
+  input()
    
 if __name__ == "__main__":
   Simulation()      
-   
-   
